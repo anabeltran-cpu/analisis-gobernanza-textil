@@ -115,3 +115,107 @@ YPE html>
 </html>
 <script>  const slider = document.getElementById("slider");  const resultado = document.getElementById("resultado");  function calcular(valor) {    valor = parseInt(valor);    // COSTO DE TRANSACCIÓN (disminuye pero cada vez menos)    let costoTransaccion = 120 * Math.exp(-valor / 40);    // COSTO DE COORDINACIÓN (aumenta de forma creciente - curva)    let costoCoordinacion = 0.03 * Math.pow(valor, 2);    // COSTO TOTAL    let total = costoTransaccion + costoCoordinacion;    // Detectar punto óptimo aproximado    let mensaje = "";    if (valor >= 45 && valor <= 60) {      mensaje = "⭐ Punto óptimo de integración (mínimo costo total)";    } else if (valor < 45) {      mensaje = "⚠ Alta dependencia del mercado → altos costos de transacción";    } else {      mensaje = "⚠ Exceso de integración → altos costos de coordinación";    }    resultado.innerHTML = `      Integración: ${valor}% <br>      Costo de Transacción: ${costoTransaccion.toFixed(2)} <br>      Costo de Coordinación: ${costoCoordinacion.toFixed(2)} <br>      <strong>Costo Total: ${total.toFixed(2)}</strong> <br><br>      ${mensaje}    `;  }  slider.addEventListener("input", () => {    calcular(slider.value);  });  calcular(40);</script>
 
+<canvas id="grafico"></canvas>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+  const slider = document.getElementById("slider");
+  const resultado = document.getElementById("resultado");
+
+  // generar datos para el gráfico
+  let x = [];
+  let transaccion = [];
+  let coordinacion = [];
+  let total = [];
+
+  for (let i = 0; i <= 100; i++) {
+    let ct = 120 * Math.exp(-i / 40);
+    let cc = 0.03 * Math.pow(i, 2);
+    let tt = ct + cc;
+
+    x.push(i);
+    transaccion.push(ct);
+    coordinacion.push(cc);
+    total.push(tt);
+  }
+
+  // crear gráfico
+  const ctx = document.getElementById("grafico").getContext("2d");
+
+  const chart = new Chart(ctx, {
+    type: "line",
+    data: {
+      labels: x,
+      datasets: [
+        {
+          label: "Costo de Transacción",
+          data: transaccion,
+          borderWidth: 2
+        },
+        {
+          label: "Costo de Coordinación",
+          data: coordinacion,
+          borderWidth: 2
+        },
+        {
+          label: "Costo Total",
+          data: total,
+          borderWidth: 3
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: {
+          position: "top"
+        }
+      },
+      scales: {
+        x: {
+          title: {
+            display: true,
+            text: "Grado de Integración Vertical (%)"
+          }
+        },
+        y: {
+          title: {
+            display: true,
+            text: "Costos"
+          }
+        }
+      }
+    }
+  });
+
+  function calcular(valor) {
+    valor = parseInt(valor);
+
+    let ct = 120 * Math.exp(-valor / 40);
+    let cc = 0.03 * Math.pow(valor, 2);
+    let tt = ct + cc;
+
+    let mensaje = "";
+
+    if (valor >= 45 && valor <= 60) {
+      mensaje = "⭐ Punto óptimo de integración";
+    } else if (valor < 45) {
+      mensaje = "⚠ Alta dependencia del mercado";
+    } else {
+      mensaje = "⚠ Exceso de integración";
+    }
+
+    resultado.innerHTML = `
+      Integración: ${valor}% <br>
+      Costo de Transacción: ${ct.toFixed(2)} <br>
+      Costo de Coordinación: ${cc.toFixed(2)} <br>
+      <strong>Costo Total: ${tt.toFixed(2)}</strong> <br><br>
+      ${mensaje}
+    `;
+  }
+
+  slider.addEventListener("input", () => {
+    calcular(slider.value);
+  });
+
+  calcular(40);
+</script>

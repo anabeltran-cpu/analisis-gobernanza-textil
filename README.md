@@ -80,15 +80,6 @@
   </p>
 </div>
 
-<div class="box">
-  <h2>3. Modelo Interactivo: Nivel Óptimo de Integración</h2>
-
-  <label>Grado de integración vertical:</label>
-  <input type="range" min="0" max="100" value="40" id="slider">
-
-  <div class="resultado" id="resultado"></div>
-</div>
-
 <script>
   const slider = document.getElementById("slider");
   const resultado = document.getElementById("resultado");
@@ -96,27 +87,31 @@
   function calcular(valor) {
     valor = parseInt(valor);
 
-    // modelo aplicado a industria textil
-    let costoTransaccion = 120 - valor * 1.2; 
-    let costoCoordinacion = valor * 1.5; 
+    // COSTO DE TRANSACCIÓN (disminuye pero cada vez menos)
+    let costoTransaccion = 120 * Math.exp(-valor / 40);
 
+    // COSTO DE COORDINACIÓN (aumenta de forma creciente - curva)
+    let costoCoordinacion = 0.03 * Math.pow(valor, 2);
+
+    // COSTO TOTAL
     let total = costoTransaccion + costoCoordinacion;
 
+    // Detectar punto óptimo aproximado
     let mensaje = "";
 
-    if (total < 140 && total > 120) {
-      mensaje = "✔ Nivel cercano al óptimo de integración";
-    } else if (valor < 30) {
-      mensaje = "⚠ Alta dependencia del mercado (importaciones y proveedores externos)";
-    } else if (valor > 70) {
-      mensaje = "⚠ Exceso de integración (altos costos internos de gestión)";
+    if (valor >= 45 && valor <= 60) {
+      mensaje = "⭐ Punto óptimo de integración (mínimo costo total)";
+    } else if (valor < 45) {
+      mensaje = "⚠ Alta dependencia del mercado → altos costos de transacción";
+    } else {
+      mensaje = "⚠ Exceso de integración → altos costos de coordinación";
     }
 
     resultado.innerHTML = `
       Integración: ${valor}% <br>
-      Costo de Transacción: ${costoTransaccion.toFixed(1)} <br>
-      Costo de Coordinación: ${costoCoordinacion.toFixed(1)} <br>
-      Costo Total: ${total.toFixed(1)} <br><br>
+      Costo de Transacción: ${costoTransaccion.toFixed(2)} <br>
+      Costo de Coordinación: ${costoCoordinacion.toFixed(2)} <br>
+      <strong>Costo Total: ${total.toFixed(2)}</strong> <br><br>
       ${mensaje}
     `;
   }
@@ -127,7 +122,3 @@
 
   calcular(40);
 </script>
-
-
-</body>
-</html>

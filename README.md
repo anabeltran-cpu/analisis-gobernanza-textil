@@ -1,34 +1,29 @@
 # analisis-gobernanza-textil
 "Análisis de gobernanza e integración vertical en la industria textil"
-<!DOCTYPE html>
+YPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Industria Textil en Chile - Integración Vertical</title>
-
+  <title>Capítulo 2 - Naturaleza de la Empresa</title>
   <style>
     body {
       font-family: Arial;
-      background: #f5f5f5;
+      background: #f0f2f5;
       margin: 40px;
     }
-
     .box {
       background: white;
       padding: 25px;
       border-radius: 10px;
       margin-bottom: 20px;
     }
-
     h1, h2 {
       color: #222;
     }
-
     input {
       width: 100%;
       margin-top: 10px;
     }
-
     .resultado {
       margin-top: 15px;
       font-weight: bold;
@@ -38,46 +33,42 @@
 <body>
 
 <div class="box">
-  <h1>Industria Textil en Chile</h1>
+  <h1>Naturaleza y Tamaño de la Empresa</h1>
 
   <h2>1. Dimensión Teórica</h2>
   <p>
-    Según Ronald Coase (1937), las empresas existen porque utilizar el mercado implica
-    costos de transacción, como la búsqueda de proveedores, negociación de contratos
-    y control del cumplimiento. En la industria textil chilena, estos costos son altos
-    debido a la dependencia de importaciones y múltiples intermediarios.
+    Según Ronald Coase (1937), las empresas existen porque usar el mercado no es gratis.
+    Existen costos de transacción como la búsqueda de información, negociación y cumplimiento
+    de contratos. Frente a esto, la empresa surge como una alternativa que coordina mediante
+    jerarquías en lugar de precios.
   </p>
 
   <p>
-    La empresa surge como una alternativa al mercado, coordinando internamente mediante
-    jerarquías. Sin embargo, a mayor integración vertical, aumentan los costos de
-    coordinación interna, como la gestión, supervisión y burocracia.
-  </p>
-
-  <p>
-    Por lo tanto, el tamaño óptimo de la empresa se determina cuando el costo total
-    (transacción + coordinación) es mínimo.
+    Sin embargo, al crecer la empresa aparecen costos de coordinación interna como burocracia,
+    supervisión y gestión. Por lo tanto, el tamaño óptimo de la empresa se determina cuando
+    el costo total es mínimo.
   </p>
 </div>
 
 <div class="box">
-  <h2>2. Aplicación Práctica: Industria Textil Chilena</h2>
-
+  <h2>2. Aplicación Práctica</h2>
   <p>
-    La industria textil en Chile se caracteriza por una alta dependencia de importaciones,
-    especialmente desde Asia, lo que implica elevados costos de transacción asociados a
-    logística, negociación y riesgo de incumplimiento.
+    Industria: Retail (ejemplo tipo Mercado Libre).
+    La empresa puede integrarse verticalmente hacia atrás (pagos) o hacia adelante (logística).
   </p>
 
   <p>
-    Algunas empresas han optado por integrar verticalmente ciertas actividades, como
-    almacenamiento, distribución o marcas propias, con el objetivo de reducir estos costos.
+    A mayor integración, disminuyen los costos de transacción, pero aumentan los costos de coordinación.
   </p>
+</div>
 
-  <p>
-    Sin embargo, una integración excesiva puede generar altos costos de coordinación,
-    como mayor complejidad organizacional y aumento de la burocracia interna.
-  </p>
+<div class="box">
+  <h2>3. Modelo Interactivo</h2>
+
+  <label>Grado de integración vertical:</label>
+  <input type="range" min="0" max="100" value="50" id="slider">
+
+  <div class="resultado" id="resultado"></div>
 </div>
 
 <script>
@@ -87,38 +78,72 @@
   function calcular(valor) {
     valor = parseInt(valor);
 
-    // COSTO DE TRANSACCIÓN (disminuye pero cada vez menos)
-    let costoTransaccion = 120 * Math.exp(-valor / 40);
+    // lógica económica real del PPT
+    let costoTransaccion = 100 - valor; 
+    let costoCoordinacion = valor * 1.2; 
 
-    // COSTO DE COORDINACIÓN (aumenta de forma creciente - curva)
-    let costoCoordinacion = 0.03 * Math.pow(valor, 2);
-
-    // COSTO TOTAL
     let total = costoTransaccion + costoCoordinacion;
 
-    // Detectar punto óptimo aproximado
     let mensaje = "";
 
-    if (valor >= 45 && valor <= 60) {
-      mensaje = "⭐ Punto óptimo de integración (mínimo costo total)";
-    } else if (valor < 45) {
-      mensaje = "⚠ Alta dependencia del mercado → altos costos de transacción";
-    } else {
-      mensaje = "⚠ Exceso de integración → altos costos de coordinación";
+    if (total < 110 && total > 90) {
+      mensaje = "👉 Punto cercano al óptimo";
+    } else if (valor < 30) {
+      mensaje = "Mucho mercado (altos costos de transacción)";
+    } else if (valor > 70) {
+      mensaje = "Mucha jerarquía (altos costos de coordinación)";
     }
 
     resultado.innerHTML = `
       Integración: ${valor}% <br>
-      Costo de Transacción: ${costoTransaccion.toFixed(2)} <br>
-      Costo de Coordinación: ${costoCoordinacion.toFixed(2)} <br>
-      <strong>Costo Total: ${total.toFixed(2)}</strong> <br><br>
+      Costo de Transacción: ${costoTransaccion.toFixed(1)} <br>
+      Costo de Coordinación: ${costoCoordinacion.toFixed(1)} <br>
+      Costo Total: ${total.toFixed(1)} <br><br>
       ${mensaje}
     `;
   }
 
   slider.addEventListener("input", () => {
+  
     calcular(slider.value);
   });
 
-  calcular(40);
+  calcular(50);
 </script>
+
+</body>
+</html>
+<script>  const slider = document.getElementById("slider");  const resultado = document.getElementById("resultado");  function calcular(valor) {    valor = parseInt(valor);    // COSTO DE TRANSACCIÓN (disminuye pero cada vez menos)    let costoTransaccion = 120 * Math.exp(-valor / 40);    // COSTO DE COORDINACIÓN (aumenta de forma creciente - curva)    let costoCoordinacion = 0.03 * Math.pow(valor, 2);    // COSTO TOTAL    let total = costoTransaccion + costoCoordinacion;    // Detectar punto óptimo aproximado    let mensaje = "";    if (valor >= 45 && valor <= 60) {      mensaje = "⭐ Punto óptimo de integración (mínimo costo total)";    } else if (valor < 45) {      mensaje = "⚠ Alta dependencia del mercado → altos costos de transacción";    } else {      mensaje = "⚠ Exceso de integración → altos costos de coordinación";    }    resultado.innerHTML = `      Integración: ${valor}% <br>      Costo de Transacción: ${costoTransaccion.toFixed(2)} <br>      Costo de Coordinación: ${costoCoordinacion.toFixed(2)} <br>      <strong>Costo Total: ${total.toFixed(2)}</strong> <br><br>      ${mensaje}    `;  }  slider.addEventListener("input", () => {    calcular(slider.value);  });  calcular(40);</script>
+
+🧠 ¿Por qué este modelo es mejor?
+Porque ahora refleja bien lo que dice tu PPT:
+✔ Costos de transacción ↓ pero no de forma infinita (decreciente)
+✔ Costos de coordinación ↑ cada vez más (curva cuadrática)
+✔ Existe un mínimo claro (óptimo)
+👉 Esto es exactamente la lógica de Coase + Williamson
+
+🔥 SI QUIERES EL SIGUIENTE NIVEL
+Te recomiendo (esto te puede subir mucho la nota):
+
+
+Agregar gráfico visual (curvas reales)
+
+
+Marcar el punto óptimo en el gráfico
+
+
+Mostrar las 3 curvas:
+
+
+Transacción
+
+
+Coordinación
+
+
+Total
+
+
+
+
+Si quieres, te hago eso en el siguiente paso listo para copiar.

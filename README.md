@@ -115,35 +115,3 @@ YPE html>
 </html>
 <script>  const slider = document.getElementById("slider");  const resultado = document.getElementById("resultado");  function calcular(valor) {    valor = parseInt(valor);    // COSTO DE TRANSACCIÓN (disminuye pero cada vez menos)    let costoTransaccion = 120 * Math.exp(-valor / 40);    // COSTO DE COORDINACIÓN (aumenta de forma creciente - curva)    let costoCoordinacion = 0.03 * Math.pow(valor, 2);    // COSTO TOTAL    let total = costoTransaccion + costoCoordinacion;    // Detectar punto óptimo aproximado    let mensaje = "";    if (valor >= 45 && valor <= 60) {      mensaje = "⭐ Punto óptimo de integración (mínimo costo total)";    } else if (valor < 45) {      mensaje = "⚠ Alta dependencia del mercado → altos costos de transacción";    } else {      mensaje = "⚠ Exceso de integración → altos costos de coordinación";    }    resultado.innerHTML = `      Integración: ${valor}% <br>      Costo de Transacción: ${costoTransaccion.toFixed(2)} <br>      Costo de Coordinación: ${costoCoordinacion.toFixed(2)} <br>      <strong>Costo Total: ${total.toFixed(2)}</strong> <br><br>      ${mensaje}    `;  }  slider.addEventListener("input", () => {    calcular(slider.value);  });  calcular(40);</script>
 
-🧠 ¿Por qué este modelo es mejor?
-Porque ahora refleja bien lo que dice tu PPT:
-✔ Costos de transacción ↓ pero no de forma infinita (decreciente)
-✔ Costos de coordinación ↑ cada vez más (curva cuadrática)
-✔ Existe un mínimo claro (óptimo)
-👉 Esto es exactamente la lógica de Coase + Williamson
-
-🔥 SI QUIERES EL SIGUIENTE NIVEL
-Te recomiendo (esto te puede subir mucho la nota):
-
-
-Agregar gráfico visual (curvas reales)
-
-
-Marcar el punto óptimo en el gráfico
-
-
-Mostrar las 3 curvas:
-
-
-Transacción
-
-
-Coordinación
-
-
-Total
-
-
-
-
-Si quieres, te hago eso en el siguiente paso listo para copiar.
